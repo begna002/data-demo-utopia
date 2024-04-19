@@ -90,7 +90,7 @@ public class KafkaDaemon {
   }
 
   private void loadTicketDefined() {
-    for (int i = 0; i < 1000; i++ ) {
+    for (int i = 0; i < 5000; i++ ) {
       Random random = new Random();
       int randomNumberCust = random.nextInt(99);
       int randomNumberEvent = random.nextInt(199) ;
