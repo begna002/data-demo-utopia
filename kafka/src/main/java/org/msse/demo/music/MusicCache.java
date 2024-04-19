@@ -114,6 +114,22 @@ public class MusicCache {
         return Optional.of(event);
     }
 
+    public Optional<Event> createEventDefined(String artistId, String eventId) {
+        Optional<Venue> venue = randomVenue();
+        if (venue.isPresent()) {
+            Venue selectedVenue = venue.get();
+
+            Event event = musicFaker.eventFaker().generate(eventId, artistId, selectedVenue.id(), selectedVenue.maxcapacity());
+
+            redis.put(CACHE_EVENT, event.id(), event);
+
+            return Optional.of(event);
+        }
+        log.info("Venue not found. Event creation cancelled.");
+        return Optional.empty();
+    }
+
+
     public long eventCount() {
         return redis.size(CACHE_EVENT).intValue();
     }

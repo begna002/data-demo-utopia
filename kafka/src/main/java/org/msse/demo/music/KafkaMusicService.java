@@ -102,6 +102,18 @@ public class KafkaMusicService implements MusicService {
         return event;
     }
 
+    public Optional<Event> createEventDefined(String artistId, String eventId) {
+        Optional<Event> event = musicCache.createEventDefined(artistId, eventId);
+
+        event.ifPresent(value -> {
+            log.info("Producing Event ({}) at Venue ({}) for Artist ({}) to Kafka", value.id(), value.venueid(), value.artistid());
+            send(topics.events(), value.id(), value);
+        });
+
+        return event;
+    }
+
+
     @Override
     public long eventCount() {
         return musicCache.eventCount();

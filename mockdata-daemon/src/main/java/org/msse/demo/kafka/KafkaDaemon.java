@@ -10,6 +10,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
+import java.util.Random;
 
 @Slf4j
 @Component
@@ -34,6 +35,11 @@ public class KafkaDaemon {
     loadEvents();
     loadTickets();
     loadStreams();
+
+    loadCustomerDefined();
+    loadArtistsDefined();
+    loadEventDefined();
+    loadTicketDefined();
   }
 
   // every 10 seconds
@@ -58,6 +64,42 @@ public class KafkaDaemon {
   @Scheduled(cron = "*/20 * * * * *")
   public void createEvent() {
     musicService.createEvent();
+  }
+
+  private void loadCustomerDefined() {
+    for (int i = 0; i < 100; i++) {
+      String custId = "customer-" + i;
+      customerService.createCustomer(custId);
+    }
+  }
+  private void loadArtistsDefined() {
+    for (int i = 0; i < 100; i++) {
+      String artistId = "artist-" + i;
+      musicService.createArtist(artistId);
+    }
+  }
+  private void loadEventDefined() {
+    for (int i = 0; i < 200; i++ ) {
+      Random random = new Random();
+      int randomNumber = random.nextInt(99);
+
+      String artistId = "artist-" + randomNumber;
+      String eventId = "event-" + i;
+      musicService.createEventDefined(artistId, eventId);
+    }
+  }
+
+  private void loadTicketDefined() {
+    for (int i = 0; i < 1000; i++ ) {
+      Random random = new Random();
+      int randomNumberCust = random.nextInt(99);
+      int randomNumberEvent = random.nextInt(199) ;
+
+      String custId = "customer-" + randomNumberCust;
+      String eventId = "event-" + randomNumberEvent;
+      musicService.bookTicket(eventId, custId);
+
+    }
   }
 
   private void loadCustomers() {

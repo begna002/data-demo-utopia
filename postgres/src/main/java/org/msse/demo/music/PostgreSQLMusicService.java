@@ -147,6 +147,12 @@ public class PostgreSQLMusicService implements MusicService {
     }
 
     @Override
+    public Optional<Event> createEventDefined(String artistId, String eventId) {
+        return null;
+    }
+
+
+    @Override
     public long eventCount() {
         return eventRepository.count();
     }

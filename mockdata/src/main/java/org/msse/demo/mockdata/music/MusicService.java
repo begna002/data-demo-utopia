@@ -17,6 +17,7 @@ public interface MusicService {
     long venueCount();
     Optional<Event> createEvent();
     Optional<Event> createEvent(String artistId, String venueId);
+    Optional<Event> createEventDefined(String artistId, String eventId);
     long eventCount();
     Optional<Ticket> bookTicket();
     Optional<Ticket> bookTicket(String eventId, String customerId);
